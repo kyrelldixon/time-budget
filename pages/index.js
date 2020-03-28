@@ -36,8 +36,21 @@ const mockBudget = {
 };
 
 export default () => {
-  const [budget] = useState(mockBudget);
+  const [budget, setBudget] = useState(mockBudget);
   const arrSum = (arr, key) => arr.reduce((sum, curr) => (sum += curr[key]), 0);
+
+  const addCategory = group => {
+    const initialCategoryInfo = {
+      budgeted: 0,
+      activity: 0,
+      category: `${group} Category`
+    };
+    const newBudget = {
+      ...budget,
+      [group]: [initialCategoryInfo, ...budget[group]]
+    };
+    setBudget(newBudget);
+  };
 
   return (
     <div className="pt-40">
@@ -59,7 +72,10 @@ export default () => {
               return (
                 <Fragment key={categoryGroup}>
                   <tr className="bg-blue-200">
-                    <td className="border-t border-gray-500 border-b text-base px-4 py-2">
+                    <td
+                      onClick={() => addCategory(categoryGroup)}
+                      className="border-t border-gray-500 border-b text-base px-4 py-2"
+                    >
                       {categoryGroup}
                     </td>
                     <td className="text-right border-t border-gray-500 border-b px-4 py-2">
