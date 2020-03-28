@@ -1,33 +1,25 @@
-# Tailwind CSS example
+# Time Budgetting App Prototype
 
-This is an example of using [Tailwind CSS](https://tailwindcss.com) in a Next.js project.
+> The time tracking app for people who hate scheduling
 
-## Deploy your own
+The goal of this app is to help me spend my time more intentionally.
 
-Deploy the example using [ZEIT Now](https://zeit.co/now):
+It's easy to go through the day doing things that you want to do, but finding the time to do what you need to do *and* what you want to do can be difficult.
 
-[![Deploy with ZEIT Now](https://zeit.co/button)](https://zeit.co/import/project?template=https://github.com/zeit/next.js/tree/canary/examples/with-tailwindcss)
+This app aims to solve that problem.
 
-## How to use
+Overall flow:
 
-### Using `create-next-app`
+1. Create a time budget based on how you want to spend your time
+2. Start a timer before you do an activity
+3. Stop it when you're done
 
-Execute [`create-next-app`](https://github.com/zeit/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init) or [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) to bootstrap the example:
+## Features
 
-```bash
-npm init next-app --example with-tailwindcss with-tailwindcss-app
-# or
-yarn create next-app --example with-tailwindcss with-tailwindcss-app
-```
+* Time budget by activity
+* Time tracking
 
-### Download manually
-
-Download the example:
-
-```bash
-curl https://codeload.github.com/zeit/next.js/tar.gz/canary | tar -xz --strip=2 next.js-canary/examples/with-tailwindcss
-cd with-tailwindcss
-```
+## Set up
 
 Install it and run:
 
@@ -38,18 +30,3 @@ npm run dev
 yarn
 yarn dev
 ```
-
-Deploy it to the cloud with [ZEIT Now](https://zeit.co/import?filter=next.js&utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
-
-## Notes
-
-This setup is a basic starting point for using [Tailwind CSS](https://tailwindcss.com) with Next.js. This example also includes the following [PostCSS](https://github.com/postcss/postcss) plugins:
-
-- [postcss-preset-env](https://preset-env.cssdb.org/) - Adds stage 2+ features and autoprefixes
-- [purgecss](https://github.com/FullHuman/purgecss) - Removes unused CSS
-
-## Limitations
-
-### Dynamically generated class strings will be purged
-
-Purgecss takes a very straightforward approach to removing unused CSS. It simply searches an entire file for a string that matches a regular expression. As a result, class strings that are dynamically created in a template using string concatenation will be considered unused and removed from your stylesheet. Tailwind CSS addresses this problem in more detail in [their documentation](https://tailwindcss.com/docs/controlling-file-size#writing-purgeable-html).
