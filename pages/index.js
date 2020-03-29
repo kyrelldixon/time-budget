@@ -1,3 +1,4 @@
+import Popover, { ArrowContainer } from "react-tiny-popover";
 import { useState, Fragment } from "react";
 
 const mockBudget = {
@@ -36,20 +37,33 @@ const mockBudget = {
 };
 
 export default () => {
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [category, setCategory] = useState("");
   const [budget, setBudget] = useState(mockBudget);
   const arrSum = (arr, key) => arr.reduce((sum, curr) => (sum += curr[key]), 0);
 
-  const addCategory = group => {
+  const addCategory = (group, category) => {
     const initialCategoryInfo = {
       budgeted: 0,
       activity: 0,
-      category: `${group} Category`
+      category: category || `${group} Category`
     };
     const newBudget = {
       ...budget,
       [group]: [initialCategoryInfo, ...budget[group]]
     };
     setBudget(newBudget);
+  };
+
+  const handleCategoryChange = e => {
+    setCategory(e.target.value);
+  };
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    addCategory(selectedCategory, category);
+    setCategory("");
+    setSelectedCategory("");
   };
 
   return (
@@ -72,12 +86,49 @@ export default () => {
               return (
                 <Fragment key={categoryGroup}>
                   <tr className="bg-blue-200">
-                    <td
-                      onClick={() => addCategory(categoryGroup)}
-                      className="border-t border-gray-500 border-b text-base px-4 py-2"
+                    <Popover
+                      isOpen={selectedCategory === categoryGroup}
+                      position={"bottom"}
+                      onClickOutside={() => {
+                        setSelectedCategory("");
+                      }}
+                      content={({ position, targetRect, popoverRect }) => (
+                        <ArrowContainer
+                          position={position}
+                          targetRect={targetRect}
+                          popoverRect={popoverRect}
+                          arrowSize={10}
+                          arrowStyle={{ opacity: 0.7 }}
+                        >
+                          <form
+                            className="border bg-white p-4 rounded"
+                            onSubmit={handleSubmit}
+                          >
+                            <input
+                              className="border border-blue-400 px-2 py-1 rounded"
+                              placeholder="Enter a category"
+                              required
+                              value={category}
+                              onChange={handleCategoryChange}
+                            />
+                            <hr className="border my-3" />
+                            <button
+                              className="bg-blue-400 text-white px-2 py-1 text-sm rounded"
+                              type="submit"
+                            >
+                              Submit
+                            </button>
+                          </form>
+                        </ArrowContainer>
+                      )}
                     >
-                      {categoryGroup}
-                    </td>
+                      <td
+                        onClick={() => setSelectedCategory(categoryGroup)}
+                        className="border-t border-gray-500 border-b text-base px-4 py-2"
+                      >
+                        {categoryGroup}
+                      </td>
+                    </Popover>
                     <td className="text-right border-t border-gray-500 border-b px-4 py-2">
                       {totalBudgeted} hours
                     </td>
