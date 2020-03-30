@@ -6,15 +6,15 @@ import mockBudget from "../mocks/budget.json";
 
 export default () => {
   const [selectedCategory, setSelectedCategory] = useState("");
-  const [category, setCategory] = useState("");
+  const [categoryName, setCategoryName] = useState("");
   const [budget, setBudget] = useState(mockBudget);
   const arrSum = (arr, key) => arr.reduce((sum, curr) => (sum += curr[key]), 0);
 
-  const addCategory = (group, category) => {
+  const addCategory = (group, name) => {
     const initialCategoryInfo = {
       budgeted: 0,
       activity: 0,
-      category: category || `${group} Category`
+      name: name || `${group} Category`
     };
     const newBudget = {
       ...budget,
@@ -24,13 +24,13 @@ export default () => {
   };
 
   const handleCategoryChange = e => {
-    setCategory(e.target.value);
+    setCategoryName(e.target.value);
   };
 
   const handleSubmit = e => {
     e.preventDefault();
-    addCategory(selectedCategory, category);
-    setCategory("");
+    addCategory(selectedCategory, categoryName);
+    setCategoryName("");
     setSelectedCategory("");
   };
 
@@ -81,7 +81,7 @@ export default () => {
                                 className="px-2 py-1 border border-blue-400 rounded"
                                 placeholder="Enter a category"
                                 required
-                                value={category}
+                                value={categoryName}
                                 onChange={handleCategoryChange}
                               />
                               <hr className="my-3 border" />
@@ -113,9 +113,9 @@ export default () => {
                       </td>
                     </tr>
                     {rows.map(row => (
-                      <tr key={row.category}>
+                      <tr key={row.name}>
                         <td className="px-4 py-2 border-t border-b border-gray-500">
-                          {row.category}
+                          {row.name}
                         </td>
                         <td className="px-4 py-2 text-right border-t border-b border-gray-500">
                           {row.budgeted} hours
