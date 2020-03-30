@@ -1,0 +1,31 @@
+{
+  "Career Development": [
+    {
+      "name": "Coding",
+      "budgeted": 1.5,
+      "activity": 0.2
+    },
+    {
+      "name": "Blogging",
+      "budgeted": 1.5,
+      "activity": 0.2
+    }
+  ],
+  "Health": [
+    {
+      "name": "Sleep",
+      "budgeted": 56,
+      "activity": 24
+    },
+    {
+      "name": "Eating",
+      "budgeted": 21,
+      "activity": 9
+    },
+    {
+      "name": "Working out",
+      "budgeted": 1.5,
+      "activity": 0.2
+    }
+  ]
+}

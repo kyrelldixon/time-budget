@@ -9,8 +9,8 @@ export default () => (
         </Link>
       </li>
       <li>
-        <Link href="/timer">
-          <a>Timer</a>
+        <Link href="/activity">
+          <a>Activity</a>
         </Link>
       </li>
     </ul>
