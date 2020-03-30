@@ -101,6 +101,12 @@ Types wrapped in `()` are computed and wouldn't need to be saved
   - Set start time
   - Set stop time
 
+## Potential Features
+
+- Log of activity
+- Manual adding new activies
+- Add note to activity
+
 ## Set up
 
 After cloning the repo, run:
