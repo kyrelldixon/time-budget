@@ -4,31 +4,31 @@ import { useState, Fragment } from "react";
 const mockBudget = {
   "Career Development": [
     {
-      category: "Coding",
+      name: "Coding",
       budgeted: 0.5 * 3,
       activity: 0.2
     },
     {
-      category: "Blogging",
+      name: "Blogging",
       budgeted: 0.5 * 3,
       activity: 0.2
     }
   ],
   Health: [
     {
-      category: "Sleep",
+      name: "Sleep",
       budgeted: 8 * 7,
       activity: 24,
       categoryGroup: "Health"
     },
     {
-      category: "Eating",
+      name: "Eating",
       budgeted: 3 * 7,
       activity: 9,
       categoryGroup: "Health"
     },
     {
-      category: "Working out",
+      name: "Working out",
       budgeted: 0.5 * 3,
       activity: 0.2,
       categoryGroup: "Health"
@@ -38,15 +38,15 @@ const mockBudget = {
 
 export default () => {
   const [selectedCategory, setSelectedCategory] = useState("");
-  const [category, setCategory] = useState("");
+  const [categoryName, setCategoryName] = useState("");
   const [budget, setBudget] = useState(mockBudget);
   const arrSum = (arr, key) => arr.reduce((sum, curr) => (sum += curr[key]), 0);
 
-  const addCategory = (group, category) => {
+  const addCategory = (group, name) => {
     const initialCategoryInfo = {
       budgeted: 0,
       activity: 0,
-      category: category || `${group} Category`
+      name: name || `${group} Category`
     };
     const newBudget = {
       ...budget,
@@ -56,13 +56,13 @@ export default () => {
   };
 
   const handleCategoryChange = e => {
-    setCategory(e.target.value);
+    setCategoryName(e.target.value);
   };
 
   const handleSubmit = e => {
     e.preventDefault();
-    addCategory(selectedCategory, category);
-    setCategory("");
+    addCategory(selectedCategory, categoryName);
+    setCategoryName("");
     setSelectedCategory("");
   };
 
@@ -70,7 +70,7 @@ export default () => {
     <div className="pt-40">
       <div className="max-w-2xl mx-auto">
         <table className="w-full border border-gray-500 table-fixed">
-          <thead className="uppercase text-xs font-normal text-right text-gray-600">
+          <thead className="text-xs font-normal text-right text-gray-600 uppercase">
             <tr>
               <th className="w-56 px-4 py-2 font-normal text-left">Category</th>
               <th className="px-4 py-2 font-normal">Budgeted</th>
@@ -101,19 +101,19 @@ export default () => {
                           arrowStyle={{ opacity: 0.7 }}
                         >
                           <form
-                            className="border bg-white p-4 rounded"
+                            className="p-4 bg-white border rounded"
                             onSubmit={handleSubmit}
                           >
                             <input
-                              className="border border-blue-400 px-2 py-1 rounded"
+                              className="px-2 py-1 border border-blue-400 rounded"
                               placeholder="Enter a category"
                               required
-                              value={category}
+                              value={categoryName}
                               onChange={handleCategoryChange}
                             />
-                            <hr className="border my-3" />
+                            <hr className="my-3 border" />
                             <button
-                              className="bg-blue-400 text-white px-2 py-1 text-sm rounded"
+                              className="px-2 py-1 text-sm text-white bg-blue-400 rounded"
                               type="submit"
                             >
                               Submit
@@ -124,33 +124,33 @@ export default () => {
                     >
                       <td
                         onClick={() => setSelectedCategory(categoryGroup)}
-                        className="border-t border-gray-500 border-b text-base px-4 py-2"
+                        className="px-4 py-2 text-base border-t border-b border-gray-500"
                       >
                         {categoryGroup}
                       </td>
                     </Popover>
-                    <td className="text-right border-t border-gray-500 border-b px-4 py-2">
+                    <td className="px-4 py-2 text-right border-t border-b border-gray-500">
                       {totalBudgeted} hours
                     </td>
-                    <td className="text-right border-t border-gray-500 border-b px-4 py-2">
+                    <td className="px-4 py-2 text-right border-t border-b border-gray-500">
                       {totalUsed} hours
                     </td>
-                    <td className="text-right border-t border-gray-500 border-b px-4 py-2">
+                    <td className="px-4 py-2 text-right border-t border-b border-gray-500">
                       {totalLeft} hours
                     </td>
                   </tr>
                   {rows.map(row => (
-                    <tr key={row.category}>
-                      <td className="border-t border-gray-500 border-b px-4 py-2">
-                        {row.category}
+                    <tr key={row.name}>
+                      <td className="px-4 py-2 border-t border-b border-gray-500">
+                        {row.name}
                       </td>
-                      <td className="text-right border-t border-gray-500 border-b px-4 py-2">
+                      <td className="px-4 py-2 text-right border-t border-b border-gray-500">
                         {row.budgeted} hours
                       </td>
-                      <td className="text-right border-t border-gray-500 border-b px-4 py-2">
+                      <td className="px-4 py-2 text-right border-t border-b border-gray-500">
                         {row.activity} hours
                       </td>
-                      <td className="text-right border-t border-gray-500 border-b px-4 py-2">
+                      <td className="px-4 py-2 text-right border-t border-b border-gray-500">
                         {row.budgeted - row.activity} hours
                       </td>
                     </tr>
