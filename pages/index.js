@@ -1,40 +1,8 @@
-import Popover, { ArrowContainer } from "react-tiny-popover";
 import { useState, Fragment } from "react";
+import Popover, { ArrowContainer } from "react-tiny-popover";
 
-const mockBudget = {
-  "Career Development": [
-    {
-      category: "Coding",
-      budgeted: 0.5 * 3,
-      activity: 0.2
-    },
-    {
-      category: "Blogging",
-      budgeted: 0.5 * 3,
-      activity: 0.2
-    }
-  ],
-  Health: [
-    {
-      category: "Sleep",
-      budgeted: 8 * 7,
-      activity: 24,
-      categoryGroup: "Health"
-    },
-    {
-      category: "Eating",
-      budgeted: 3 * 7,
-      activity: 9,
-      categoryGroup: "Health"
-    },
-    {
-      category: "Working out",
-      budgeted: 0.5 * 3,
-      activity: 0.2,
-      categoryGroup: "Health"
-    }
-  ]
-};
+import Nav from "../components/Nav";
+import mockBudget from "../mocks/budget.json";
 
 export default () => {
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -67,100 +35,106 @@ export default () => {
   };
 
   return (
-    <div className="pt-40">
-      <div className="max-w-2xl mx-auto">
-        <table className="w-full border border-gray-500 table-fixed">
-          <thead className="uppercase text-xs font-normal text-right text-gray-600">
-            <tr>
-              <th className="w-56 px-4 py-2 font-normal text-left">Category</th>
-              <th className="px-4 py-2 font-normal">Budgeted</th>
-              <th className="px-4 py-2 font-normal">Time Used</th>
-              <th className="px-4 py-2 font-normal">Available</th>
-            </tr>
-          </thead>
-          <tbody className="text-sm">
-            {Object.entries(budget).map(([categoryGroup, rows]) => {
-              const totalBudgeted = arrSum(rows, "budgeted");
-              const totalUsed = arrSum(rows, "activity");
-              const totalLeft = totalBudgeted - totalUsed;
-              return (
-                <Fragment key={categoryGroup}>
-                  <tr className="bg-blue-200">
-                    <Popover
-                      isOpen={selectedCategory === categoryGroup}
-                      position={"bottom"}
-                      onClickOutside={() => {
-                        setSelectedCategory("");
-                      }}
-                      content={({ position, targetRect, popoverRect }) => (
-                        <ArrowContainer
-                          position={position}
-                          targetRect={targetRect}
-                          popoverRect={popoverRect}
-                          arrowSize={10}
-                          arrowStyle={{ opacity: 0.7 }}
-                        >
-                          <form
-                            className="border bg-white p-4 rounded"
-                            onSubmit={handleSubmit}
+    <>
+      <Nav />
+
+      <div className="pt-40">
+        <div className="max-w-2xl mx-auto">
+          <table className="w-full border border-gray-500 table-fixed">
+            <thead className="text-xs font-normal text-right text-gray-600 uppercase">
+              <tr>
+                <th className="w-56 px-4 py-2 font-normal text-left">
+                  Category
+                </th>
+                <th className="px-4 py-2 font-normal">Budgeted</th>
+                <th className="px-4 py-2 font-normal">Time Used</th>
+                <th className="px-4 py-2 font-normal">Available</th>
+              </tr>
+            </thead>
+            <tbody className="text-sm">
+              {Object.entries(budget).map(([categoryGroup, rows]) => {
+                const totalBudgeted = arrSum(rows, "budgeted");
+                const totalUsed = arrSum(rows, "activity");
+                const totalLeft = totalBudgeted - totalUsed;
+                return (
+                  <Fragment key={categoryGroup}>
+                    <tr className="bg-blue-200">
+                      <Popover
+                        isOpen={selectedCategory === categoryGroup}
+                        position={"bottom"}
+                        onClickOutside={() => {
+                          setSelectedCategory("");
+                        }}
+                        content={({ position, targetRect, popoverRect }) => (
+                          <ArrowContainer
+                            position={position}
+                            targetRect={targetRect}
+                            popoverRect={popoverRect}
+                            arrowSize={10}
+                            arrowStyle={{ opacity: 0.7 }}
                           >
-                            <input
-                              className="border border-blue-400 px-2 py-1 rounded"
-                              placeholder="Enter a category"
-                              required
-                              value={category}
-                              onChange={handleCategoryChange}
-                            />
-                            <hr className="border my-3" />
-                            <button
-                              className="bg-blue-400 text-white px-2 py-1 text-sm rounded"
-                              type="submit"
+                            <form
+                              className="p-4 bg-white border rounded"
+                              onSubmit={handleSubmit}
                             >
-                              Submit
-                            </button>
-                          </form>
-                        </ArrowContainer>
-                      )}
-                    >
-                      <td
-                        onClick={() => setSelectedCategory(categoryGroup)}
-                        className="border-t border-gray-500 border-b text-base px-4 py-2"
+                              <input
+                                className="px-2 py-1 border border-blue-400 rounded"
+                                placeholder="Enter a category"
+                                required
+                                value={category}
+                                onChange={handleCategoryChange}
+                              />
+                              <hr className="my-3 border" />
+                              <button
+                                className="px-2 py-1 text-sm text-white bg-blue-400 rounded"
+                                type="submit"
+                              >
+                                Submit
+                              </button>
+                            </form>
+                          </ArrowContainer>
+                        )}
                       >
-                        {categoryGroup}
+                        <td
+                          onClick={() => setSelectedCategory(categoryGroup)}
+                          className="px-4 py-2 text-base border-t border-b border-gray-500"
+                        >
+                          {categoryGroup}
+                        </td>
+                      </Popover>
+                      <td className="px-4 py-2 text-right border-t border-b border-gray-500">
+                        {totalBudgeted} hours
                       </td>
-                    </Popover>
-                    <td className="text-right border-t border-gray-500 border-b px-4 py-2">
-                      {totalBudgeted} hours
-                    </td>
-                    <td className="text-right border-t border-gray-500 border-b px-4 py-2">
-                      {totalUsed} hours
-                    </td>
-                    <td className="text-right border-t border-gray-500 border-b px-4 py-2">
-                      {totalLeft} hours
-                    </td>
-                  </tr>
-                  {rows.map(row => (
-                    <tr key={row.category}>
-                      <td className="border-t border-gray-500 border-b px-4 py-2">
-                        {row.category}
+                      <td className="px-4 py-2 text-right border-t border-b border-gray-500">
+                        {totalUsed} hours
                       </td>
-                      <td className="text-right border-t border-gray-500 border-b px-4 py-2">
-                        {row.budgeted} hours
-                      </td>
-                      <td className="text-right border-t border-gray-500 border-b px-4 py-2">
-                        {row.activity} hours
-                      </td>
-                      <td className="text-right border-t border-gray-500 border-b px-4 py-2">
-                        {row.budgeted - row.activity} hours
+                      <td className="px-4 py-2 text-right border-t border-b border-gray-500">
+                        {totalLeft} hours
                       </td>
                     </tr>
-                  ))}
-                </Fragment>
-              );
-            })}
-          </tbody>
-        </table>
+                    {rows.map(row => (
+                      <tr key={row.category}>
+                        <td className="px-4 py-2 border-t border-b border-gray-500">
+                          {row.category}
+                        </td>
+                        <td className="px-4 py-2 text-right border-t border-b border-gray-500">
+                          {row.budgeted} hours
+                        </td>
+                        <td className="px-4 py-2 text-right border-t border-b border-gray-500">
+                          {row.activity} hours
+                        </td>
+                        <td className="px-4 py-2 text-right border-t border-b border-gray-500">
+                          {row.budgeted - row.activity} hours
+                        </td>
+                      </tr>
+                    ))}
+                  </Fragment>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
